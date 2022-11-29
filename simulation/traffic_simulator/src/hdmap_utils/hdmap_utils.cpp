@@ -53,9 +53,13 @@ namespace hdmap_utils
 HdMapUtils::HdMapUtils(
   const boost::filesystem::path & lanelet2_map_path, const geographic_msgs::msg::GeoPoint &)
 {
-  lanelet::projection::MGRSProjector projector;
-
   lanelet::ErrorMessages errors;
+
+  double map_origin_lat = 40.81187906;
+  double map_origin_lon = 29.35810110;
+  lanelet::GPSPoint position{map_origin_lat, map_origin_lon};
+  lanelet::Origin origin{position};
+  lanelet::projection::UtmProjector projector{origin};
 
   lanelet_map_ptr_ = lanelet::load(lanelet2_map_path.string(), projector, &errors);
 
